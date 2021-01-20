@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/assets/mini.css">
+
+    <title>the APIs of the fastest xml parser - txml</title>
+    <style>
+      article{
+        border-left: solid 1px lightgray;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      header{
+        text-align: center;
+      }
+      footer{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo">tXml</a>
+      <a href="https://npmjs.com/package/txml" class='button' target="_blank">npm</a>
+      <a href="/API" class='button'>API</a>
+      <a href="/examples" class='button'>examples</a>
+    </header>
+    <div class='container'>
+      <div class='row'>
+        <article class='col-sm-12 col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3'>
+          <h3><strong>txml.parse</strong> <em>(xmlString, options)</em></h3>
+<ol>
+<li><strong>xmlString</strong> is the XML to parse.</li>
+<li><strong>options</strong> is optional
+<ul>
+<li><strong>searchId</strong> an ID of some object. that can be queried. Using this is incredible fast.</li>
+<li><strong>filter</strong> a method, to filter for interesting nodes, use it like Array.filter.</li>
+<li><strong>simplify</strong> to simplify the object, to an easier access.</li>
+<li><strong>pos</strong> where to start parsing.</li>
+<li><strong>keepComments</strong> if you want to keep comments in your data (keeped as string including <code>&lt;!-- --&gt;</code>) (default false)</li>
+<li><strong>keepWhitespace</strong> keep whitespaces like spaces, tabs and line breaks as string content (default false)</li>
+<li><strong>noChildNodes</strong> array of nodes, that have no children and don't need to be closed. Default is working good for html. For example when parsing rss, the link tag is used to really provide an URL that the user can open. In html however a link text is used to bind css or other resource into the document. In HTML it does not need to get closed. so by default the noChildNodes containes the tagName 'link'. Same as 'img', 'br', 'input', 'meta', 'link'. That means: when parsing rss, it makes to set <code>noChildNodes</code> to [], an empty array.</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-js">txml.parse(`&lt;user is='great'&gt;
+    &lt;name&gt;Tobias&lt;/name&gt;
+    &lt;familyName&gt;Nickel&lt;/familyName&gt;
+    &lt;profession&gt;Software Developer&lt;/profession&gt;
+    &lt;location&gt;Shanghai / China&lt;/location&gt;
+&lt;/user&gt;`);
+// will return an object like: 
+[{
+    &quot;tagName&quot;: &quot;user&quot;,
+    &quot;attributes&quot;: {
+        &quot;is&quot;: &quot;great&quot;
+    },
+    &quot;children&quot;: [{
+            &quot;tagName&quot;: &quot;name&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Tobias&quot; ]
+        }, {
+            &quot;tagName&quot;: &quot;familyName&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Nickel&quot; ]
+        }, {
+            &quot;tagName&quot;: &quot;profession&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Software Developer&quot; ]
+        }, {
+            &quot;tagName&quot;: &quot;location&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Shanghai / China&quot; ]
+        }
+    ]
+}];  
+</code></pre>
+<h3><strong>txml.simplify</strong> <em>(tXml_DOM_Object)</em></h3>
+<p>Same purpose of simplify, to make the data easier accessible. It is modeled after PHP
+s <a href="https://www.php.net/manual/en/function.simplexml-load-string">simplexml</a>. You can quickly access properties. However, some attributes might be lost. Also some string values can be lost. For details see <a href="https://github.com/TobiasNickel/tXml/issues/19">Issue 19</a>.
+This method is used with the <code>simplify</code> parsing option.</p>
+<ol>
+<li><strong>tXml_DOM_Object</strong> the object to simplify.</li>
+</ol>
+<pre><code class="language-js">txml.simplify(txml.parse(`&lt;user is='great'&gt;
+    &lt;name&gt;Tobias&lt;/name&gt;
+    &lt;familyName&gt;Nickel&lt;/familyName&gt;
+    &lt;profession&gt;Software Developer&lt;/profession&gt;
+    &lt;location&gt;Shanghai / China&lt;/location&gt;
+&lt;/user&gt;`));
+// will return an object like: 
+{
+    &quot;user&quot;: {
+        &quot;name&quot;: &quot;Tobias&quot;,
+        &quot;familyName&quot;: &quot;Nickel&quot;,
+        &quot;profession&quot;: &quot;Software Developer&quot;,
+        &quot;location&quot;: &quot;Shanghai / China&quot;,
+        &quot;_attributes&quot;: {
+            &quot;is&quot;: &quot;great&quot;
+        }
+    }
+}
+</code></pre>
+<h3><strong>txml.simplifyLostLess</strong> <em>(tXml_DOM_Object)</em></h3>
+<p>This version is not the same as in PHP simple_xml. But therefor, you do not lose any information. If there are attributes, you get an _attribute property, even if there is only one of a kind, it will be an array with one item, for consistent code.</p>
+<h3><strong>txml.filter</strong> <em>(tXml_DOM_Object, f)</em></h3>
+<p>This method is used with the filter parameter, it is used like Array.filter. But it will traverse the entire deep tree.</p>
+<ol>
+<li><strong>tXml_DOM_Object</strong> the object to filter.</li>
+<li><strong>f</strong> a function that returns true if you want this elements in the result set.</li>
+</ol>
+<pre><code class="language-js">const dom = txml.parse(`
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;style&gt;
+            p { color: &quot;red&quot; }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;hello&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;`);
+const styleElement = data.filter(dom, node=&gt;node.tagName.toLowerCase() === 'style')[0];
+</code></pre>
+<h3><strong>txml.getElementById</strong> (xml, id)</h3>
+<p>To find an element by ID. If you are only interested for the information on, a specific node, this is easy and fast, because not the entire xml text need to get parsed, but only the small section you are interested in.</p>
+<ol>
+<li><strong>xml</strong> the xml string to search in.</li>
+<li><strong>id</strong> the id of the element to find
+<strong>returns</strong> return one node</li>
+</ol>
+<h3><strong>txml.getElementsByClassName</strong> (xml, className)</h3>
+<p>Find the elements with the given class, without parsing the entire xml into a tDOM. So it is very fast and convenient. returns a list of elements.</p>
+<ol>
+<li><strong>xml</strong> the xml string to search in.</li>
+<li><strong>className</strong> the className of the element to find</li>
+</ol>
+<h3><strong>txml.transformStream</strong> (offset, parseOptions?)</h3>
+<ol>
+<li>offset optional you to set short before the first item.
+usually files begin with something like &quot;<!DOCTYPE osm><osm>&quot;
+so the offset need to be before the first item starts so that
+between that item and the offset is no &quot;&lt;&quot; character.
+alternatively, pass a string, containing this preamble.</li>
+<li>options optional, similar to the parse methods options.
+return transformStream.</li>
+</ol>
+<pre><code class="language-js">const xmlStream = fs.createReadStream('your.xml')
+  .pipe(txml.transformStream());
+for await(let element of xmlStream) {
+  // your logic here ...
+}
+</code></pre>
+<p>The transform stream is great, because when your logic within the processing loop is slow, the file read stream will also run slower, and not fill up the RAM memory. For a more detailed explanation read <a href="https://tnickel.de/2019/10/15/2019-10-for-async-on-nodejs-streams/">here</a></p>
+
+        </div>
+      </div>
+  </div>
+    <footer>
+      <p>The smallest fastest pure js xml parser: <a href="https://npmjs.com/package/txml" target="_blank">tXml</a>
+        <br />originally developed by <a href="https://tnickel.de/" target="_blank">Tobias Nickel</a>
+        <br />on <a href="https://github.com/TobiasNickel/tXml" target="_blank">Github</a></p>
+    </footer>
+  </body>
+</html>
