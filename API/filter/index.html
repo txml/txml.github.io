@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/mini.css">
     <link rel="stylesheet" href="/assets/style.css">
 
-    <title><%- title || 'tXml the efficient xml parser for javascript' %></title>
+    <title>txml filter</title>
     <style>
       article{
         border-left: solid 1px lightgray;
@@ -32,7 +32,26 @@
     <div class='container'>
       <div class='row'>
         <article class='col-sm-12 col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3'>
-          <%- content %>
+          <h3><strong>txml.filter</strong> <em>(tXml_DOM_Object, f)</em></h3>
+<p>This method is used with the filter parameter, it is used like Array.filter. But it will traverse the entire deep tree.</p>
+<ol>
+<li><strong>tXml_DOM_Object</strong> the object to filter.</li>
+<li><strong>f</strong> a function that returns true if you want this elements in the result set.</li>
+</ol>
+<pre><code class="language-js">const dom = txml.parse(`
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;style&gt;
+            p { color: &quot;red&quot; }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;hello&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;`);
+const styleElement = data.filter(dom, node=&gt;node.tagName.toLowerCase() === 'style')[0];
+</code></pre>
+
         </div>
       </div>
   </div>

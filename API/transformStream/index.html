@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/mini.css">
     <link rel="stylesheet" href="/assets/style.css">
 
-    <title><%- title || 'tXml the efficient xml parser for javascript' %></title>
+    <title>txml transform stream</title>
     <style>
       article{
         border-left: solid 1px lightgray;
@@ -32,7 +32,24 @@
     <div class='container'>
       <div class='row'>
         <article class='col-sm-12 col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3'>
-          <%- content %>
+          <h3><strong>txml.transformStream</strong> (offset, parseOptions?)</h3>
+<ol>
+<li>offset optional you to set short before the first item.
+usually files begin with something like &quot;<!DOCTYPE osm><osm>&quot;
+so the offset need to be before the first item starts so that
+between that item and the offset is no &quot;&lt;&quot; character.
+alternatively, pass a string, containing this preamble.</li>
+<li>options optional, similar to the parse methods options.
+return transformStream.</li>
+</ol>
+<pre><code class="language-js">const xmlStream = fs.createReadStream('your.xml')
+  .pipe(txml.transformStream());
+for await(let element of xmlStream) {
+  // your logic here ...
+}
+</code></pre>
+<p>The transform stream is great, because when your logic within the processing loop is slow, the file read stream will also run slower, and not fill up the RAM memory. For a more detailed explanation read <a href="https://tnickel.de/2019/10/15/2019-10-for-async-on-nodejs-streams/">here</a></p>
+
         </div>
       </div>
   </div>

@@ -1,0 +1,27 @@
+code.language-js{
+    font-weight: bold;
+}
+/* .token.function{
+    color: rgb(181, 181, 44);
+}
+.token.string {
+    color: rgb(187, 122, 0);
+}
+.token.punctuation{
+    color: black;
+}
+.token.keyword{
+    color: rgb(46, 177, 120)
+} */
+.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#313028}
+.token.punctuation{color:#10205a}
+.token.constant,.token.deleted,.token.property,.token.symbol,.token.tag {color:#c8ff7a}
+.token.boolean,.token.number{color:#353939}
+.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#ae8a27}
+.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url,.token.variable{color:#096969}
+.token.atrule,.token.attr-value,.token.function{color:rgb(189, 163, 13)}
+.token.keyword{color:#004242}.token.important,.token.regex{color:rgb(139, 193, 13)}
+.token.bold,.token.important{font-weight:700}
+.token.italic{font-style:italic}
+.token.entity{cursor:help}
+

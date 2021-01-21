@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/assets/mini.css">
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <title>txml.parse</title>
+    <style>
+      article{
+        border-left: solid 1px lightgray;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      header{
+        text-align: center;
+      }
+      footer{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo">tXml</a>
+      <a href="https://npmjs.com/package/txml" class='button' target="_blank">npm</a>
+      <a href="/API" class='button'>API</a>
+      <a href="/examples" class='button'>examples</a>
+    </header>
+    <div class='container'>
+      <div class='row'>
+        <article class='col-sm-12 col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3'>
+          <h3><strong>txml.parse</strong> <em>(xmlString, options)</em></h3>
+<ol>
+<li><strong>xmlString</strong> is the XML to parse.</li>
+<li><strong>options</strong> is optional
+<ul>
+<li><strong>searchId</strong> an ID of some object. that can be queried. Using this is incredible fast.</li>
+<li><strong>filter</strong> a method, to filter for interesting nodes, use it like Array.filter.</li>
+<li><strong>simplify</strong> to simplify the object, to an easier access.</li>
+<li><strong>pos</strong> where to start parsing.</li>
+<li><strong>keepComments</strong> if you want to keep comments in your data (keeped as string including <code>&lt;!-- --&gt;</code>) (default false)</li>
+<li><strong>keepWhitespace</strong> keep whitespaces like spaces, tabs and line breaks as string content (default false)</li>
+<li><strong>noChildNodes</strong> array of nodes, that have no children and don't need to be closed. Default is working good for html. For example when parsing rss, the link tag is used to really provide an URL that the user can open. In html however a link text is used to bind css or other resource into the document. In HTML it does not need to get closed. so by default the noChildNodes containes the tagName 'link'. Same as 'img', 'br', 'input', 'meta', 'link'. That means: when parsing rss, it makes to set <code>noChildNodes</code> to [], an empty array.</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-js">txml.parse(`&lt;user is='great'&gt;
+    &lt;name&gt;Tobias&lt;/name&gt;
+    &lt;familyName&gt;Nickel&lt;/familyName&gt;
+    &lt;profession&gt;Software Developer&lt;/profession&gt;
+    &lt;location&gt;Shanghai / China&lt;/location&gt;
+&lt;/user&gt;`);
+// will return an object like: 
+[{
+    &quot;tagName&quot;: &quot;user&quot;,
+    &quot;attributes&quot;: {
+        &quot;is&quot;: &quot;great&quot;
+    },
+    &quot;children&quot;: [{
+            &quot;tagName&quot;: &quot;name&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Tobias&quot; ]
+        }, {
+            &quot;tagName&quot;: &quot;familyName&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Nickel&quot; ]
+        }, {
+            &quot;tagName&quot;: &quot;profession&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Software Developer&quot; ]
+        }, {
+            &quot;tagName&quot;: &quot;location&quot;,
+            &quot;attributes&quot;: {},
+            &quot;children&quot;: [ &quot;Shanghai / China&quot; ]
+        }
+    ]
+}];  
+</code></pre>
+
+        </div>
+      </div>
+  </div>
+    <footer>
+      <p>The smallest fastest pure js xml parser: <a href="https://npmjs.com/package/txml" target="_blank">tXml</a>
+        <br />originally developed by <a href="https://tnickel.de/" target="_blank">Tobias Nickel</a>
+        <br />on <a href="https://github.com/TobiasNickel/tXml" target="_blank">Github</a></p>
+    </footer>
+  </body>
+</html>

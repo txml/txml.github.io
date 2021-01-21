@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/assets/mini.css">
+    <link rel="stylesheet" href="/assets/style.css">
 
     <title>txml the small fast pure javascript xml parser that run everywhere</title>
     <style>
@@ -31,8 +32,27 @@
     <div class='container'>
       <div class='row'>
         <article class='col-sm-12 col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3'>
-          <p>tXml is a parser that is implemented with nothing but javascript. It can just absolutely everywhere where javascript can run. In bowser, node, PWAs, worker, service worker, mini programs and more.</p>
-<p>tXml is really fast. in benchmarks it has proven to be more then 3 times as fast as <code>fast-xml-parser</code> and 5 to 10 times faster than the legacy of <code>xml2js</code>.</p>
+          <p>tXml is a parser that is implemented with nothing but javascript. It can work just absolutely everywhere where javascript can. In bowser, node, PWA, worker, service worker, mini programs and more.</p>
+<h2>So what does the parser do exactly?</h2>
+<code class="row">
+  <div class="col-md-6 col-sm-12">
+  It turns a string
+<pre><code class="language-js">`&lt;xml is=&quot;awesome&quot;&gt;tXml&lt;/xml&gt;`
+</code></pre>
+  </div>
+  <div class="col-sm-12 col-md-6">
+  into objects
+<pre><code class="language-js">{
+    tagName: 'xml',
+    attributes: {
+        is: 'awesome'
+    },
+    children: ['tXml']
+}
+</code></pre>
+  </div>
+</code>
+<p>tXml is really fast. in benchmarks it has shown to be more then 3 times as fast as <code>fast-xml-parser</code> and 5 to 10 times faster than the legacy of <code>xml2js</code>.</p>
 <p>There are more good reasons, check this list:</p>
 <ul>
 <li>tXml is about 255 lines, can be easily extended.</li>
@@ -48,6 +68,7 @@
 <li>tXml is 100% covered by unit tests.</li>
 <li>tXml is extreme small, perfect for browser, node, cloud function, edge.</li>
 </ul>
+<p>checkout the <a href="/API">API</a>, or jump right into the action and see some <a href="/examples">examples</a>.</p>
 
         </div>
       </div>

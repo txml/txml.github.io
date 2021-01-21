@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/assets/mini.css">
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <title>txml simplify</title>
+    <style>
+      article{
+        border-left: solid 1px lightgray;
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+      header{
+        text-align: center;
+      }
+      footer{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo">tXml</a>
+      <a href="https://npmjs.com/package/txml" class='button' target="_blank">npm</a>
+      <a href="/API" class='button'>API</a>
+      <a href="/examples" class='button'>examples</a>
+    </header>
+    <div class='container'>
+      <div class='row'>
+        <article class='col-sm-12 col-md-offset-2 col-md-8 col-lg-6 col-lg-offset-3'>
+          <h3><strong>txml.simplify</strong> <em>(tXml_DOM_Object)</em></h3>
+<p>Same purpose of simplify, to make the data easier accessible. It is modeled after PHP
+s <a href="https://www.php.net/manual/en/function.simplexml-load-string">simplexml</a>. You can quickly access properties. However, some attributes might be lost. Also some string values can be lost. For details see <a href="https://github.com/TobiasNickel/tXml/issues/19">Issue 19</a>.
+This method is used with the <code>simplify</code> parsing option.</p>
+<ol>
+<li><strong>tXml_DOM_Object</strong> the object to simplify.</li>
+</ol>
+<pre><code class="language-js">txml.simplify(txml.parse(`&lt;user is='great'&gt;
+    &lt;name&gt;Tobias&lt;/name&gt;
+    &lt;familyName&gt;Nickel&lt;/familyName&gt;
+    &lt;profession&gt;Software Developer&lt;/profession&gt;
+    &lt;location&gt;Shanghai / China&lt;/location&gt;
+&lt;/user&gt;`));
+// will return an object like: 
+{
+    &quot;user&quot;: {
+        &quot;name&quot;: &quot;Tobias&quot;,
+        &quot;familyName&quot;: &quot;Nickel&quot;,
+        &quot;profession&quot;: &quot;Software Developer&quot;,
+        &quot;location&quot;: &quot;Shanghai / China&quot;,
+        &quot;_attributes&quot;: {
+            &quot;is&quot;: &quot;great&quot;
+        }
+    }
+}
+</code></pre>
+
+        </div>
+      </div>
+  </div>
+    <footer>
+      <p>The smallest fastest pure js xml parser: <a href="https://npmjs.com/package/txml" target="_blank">tXml</a>
+        <br />originally developed by <a href="https://tnickel.de/" target="_blank">Tobias Nickel</a>
+        <br />on <a href="https://github.com/TobiasNickel/tXml" target="_blank">Github</a></p>
+    </footer>
+  </body>
+</html>
